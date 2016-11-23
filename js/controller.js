@@ -9,10 +9,10 @@ $(document).ready(function() {
   }
 
   //add ships to board and change symbols
-  var shipArray = addShips([1, 1, 1, 1, 1], board, n);
-  for (var i = 0; i < shipArray.length; i++) {
-    $("#" + shipArray[i]).text("X");
-  }
+  // var shipArray = addShips([1, 1, 1, 1, 1], board, n);
+  // for (var i = 0; i < shipArray.length; i++) {
+  //   $("#" + shipArray[i]).text("X");
+  // }
 
   //Change background color based on hit or miss
   $("td").on("click", function() {
