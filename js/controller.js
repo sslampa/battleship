@@ -7,4 +7,10 @@ $(document).ready(function() {
       $("#" + iter).append("<td id=" + iter + "-" + i +"></td>");
     }
   }
+
+  //Change background color based on hit or miss
+  $("td").on("click", function() {
+    $(this).addClass("hit");
+    $(this).off();
+  });
 });
