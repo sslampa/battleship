@@ -6,5 +6,9 @@ td {
 }
 
 .hit {
-  background-color: green; 
+  background-color: green;
+}
+
+.miss {
+  background-color: red;
 }
