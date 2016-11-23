@@ -14,7 +14,7 @@ function checkWin(shipArray) {
     return 1;
   } else if (counter === 0){
     return 0;
-  } 
+  }
 }
 
 //Check for hit or miss at position
@@ -79,13 +79,15 @@ function addShips(ships, board, n, numShips) {
 
 //Function that generates random positions on the board
 function randPos(numShips, n) {
+  var currentPosition;
+  var prevPosition;
 
   //Holds values for the random positions of ships
   var positionArray = [];
 
   //State will be false if the randomly generated positions are not currently
   //found in positionArray. True if otherwise.
-  var state = false;
+  //var state = false;
 
   //Get position for each ship and make sure they do not overlap
   for (var i = 0; i < numShips; i++) {
@@ -94,33 +96,92 @@ function randPos(numShips, n) {
     var currentPosition =
       [Math.floor(Math.random() * n), Math.floor(Math.random() * n)];
 
+    //while (true) {
+      //for (var iter = 0; iter < ships[i]; iter++) {
+
+      //}
+    //}
     //Checks the positionArray if it contains the potential random position as
     //long as the length of the array is greater than 0 to avoid comparing the
     //first empty value.
-    while (true && positionArray.length > 0) {
-
-      //Goes through each individual item in positionArray, changes state at any
-      //point where the currentPosition and current array value are equal.
-      for (var x = 0; x < positionArray.length; x++) {
-        if (positionArray[x][0] === currentPosition[0] &&
-          positionArray[x][1] === currentPosition[1]) {
-            state = true;
-            break;
-          }
-      }
+    // while (true && positionArray.length > 0) {
+    //
+    //   //Goes through each individual item in positionArray, changes state at any
+    //   //point where the currentPosition and current array value are equal.
+    //   for (var x = 0; x < positionArray.length; x++) {
+    //     if (positionArray[x][0] === currentPosition[0] &&
+    //       positionArray[x][1] === currentPosition[1]) {
+    //         state = true;
+    //         break;
+    //       }
+    //   }
 
       //Checks to see if currentPosition needs to be changed. Breaks if the
       //currentPosition is not found in the loop.
-      if (state) {
-        currentPosition = [Math.floor(Math.random() * n),
-          Math.floor(Math.random() * n)];
-          state = false;
-      } else {
-        break;
-      }
-    }
+    //   if (state) {
+    //     currentPosition = [Math.floor(Math.random() * n),
+    //       Math.floor(Math.random() * n)];
+    //       state = false;
+    //   } else {
+    //     break;
+    //   }
+    // }
 
     positionArray.push(currentPosition);
   }
   return positionArray;
+}
+
+function checkHori(prev, curr, posArray) {
+  var currRow = curr[0];
+  var currCol = curr[1];
+  var prevRow = prev[0];
+  var prevCol = prev[1];
+
+  for (var iter = 0; iter < posArray.length; iter++) {
+    if ((posArray[iter][0] === currRow) &&
+       (((posArray[iter][1] === currCol + 1) && (posArray[iter][1] !== prevCol)) || ((posArray[iter][1] === currCol - 1)) && (posArray[iter][1] !== prevCol))) {
+        return true;
+      }
+  }
+
+  return false;
+}
+
+//checkHori([1, 0], [1, 1], [[2, 1], [0, 1], [1, 0], [1, 2]]);
+
+function checkVert(prev, curr, posArray) {
+  var currRow = curr[0];
+  var currCol = curr[1];
+  var prevRow = prev[0];
+  var prevCol = prev[1];
+
+    for (var iter = 0; iter < posArray.length; iter++) {
+      if ((posArray[iter][1] === currCol) &&
+         (((posArray[iter][0] === currRow + 1) && (posArray[iter][0] !== prevRow)) || ((posArray[iter][0] === currRow - 1)) && (posArray[iter][0] !== prevRow))) {
+          return true;
+      }
+  }
+
+  return false;
+}
+
+//checkVert([0,1], [1, 1], [[0,1], [1, 2]]); //[2,1], [0,1]
+
+function checkDiag(curr, posArray) {
+  var currRow = curr[0];
+  var currCol = curr[1];
+
+  for (var iter = 0; iter < posArray.length; iter++) {
+    if (
+      ((posArray[iter][0] === currRow + 1) && (posArray[iter][1] === currCol - 1)) ||
+      ((posArray[iter][0] === currRow - 1) && (posArray[iter][1] === currCol + 1)) ||
+      ((posArray[iter][0] === currRow - 1) && (posArray[iter][1] === currCol - 1)) ||
+      ((posArray[iter][0] === currRow + 1) && (posArray[iter][1] === currCol + 1))
+      ) {
+      return true;
+      }
+  }
+
+  return false;
 }
