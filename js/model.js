@@ -4,7 +4,7 @@ var MISS = -1;
 var EMPTY = 0;
 var HIT = 1;
 var SHIP = 200;
-var ships = [1, 1, 1, 1, 1];
+var ships = [5, 1];
 var numShips = ships.length;
 var counter = 25;
 
@@ -80,54 +80,36 @@ function addShips(ships, board, n, numShips) {
 //Function that generates random positions on the board
 function randPos(numShips, n) {
   var currentPosition;
-  var prevPosition;
-
+  //var prevPosition = [-1, -1];
+  var currentArray = [];
   //Holds values for the random positions of ships
   var positionArray = [];
 
-  //State will be false if the randomly generated positions are not currently
-  //found in positionArray. True if otherwise.
-  //var state = false;
-
   //Get position for each ship and make sure they do not overlap
   for (var i = 0; i < numShips; i++) {
-
     //Generates potential random position
     var currentPosition =
       [Math.floor(Math.random() * n), Math.floor(Math.random() * n)];
 
-    //while (true) {
-      //for (var iter = 0; iter < ships[i]; iter++) {
+    if (currentPosition[0] - ships[i] < (n - 1)) {
+      for (var x = 0; x < ships[i]; x++) {
+        currentArray.push([currentPosition[0] - 1, currentPosition[1]]);
+      }
+    }
 
-      //}
-    //}
-    //Checks the positionArray if it contains the potential random position as
-    //long as the length of the array is greater than 0 to avoid comparing the
-    //first empty value.
-    // while (true && positionArray.length > 0) {
-    //
-    //   //Goes through each individual item in positionArray, changes state at any
-    //   //point where the currentPosition and current array value are equal.
-    //   for (var x = 0; x < positionArray.length; x++) {
-    //     if (positionArray[x][0] === currentPosition[0] &&
-    //       positionArray[x][1] === currentPosition[1]) {
-    //         state = true;
-    //         break;
-    //       }
-    //   }
-
-      //Checks to see if currentPosition needs to be changed. Breaks if the
-      //currentPosition is not found in the loop.
-    //   if (state) {
-    //     currentPosition = [Math.floor(Math.random() * n),
-    //       Math.floor(Math.random() * n)];
-    //       state = false;
-    //   } else {
-    //     break;
-    //   }
-    // }
+    while (true) {
+      if (checkDiag(currentPosition, positionArray) ||
+        checkHori(prevPosition, currentPosition, positionArray) ||
+        checkVert(prevPosition, currentPosition, positionArray)) {
+          currentPosition = [Math.floor(Math.random() * n), Math.floor(Math.random() * n)];
+        } else {
+          break;
+        }
+    }
 
     positionArray.push(currentPosition);
+    prevPosition = currentPosition;
+    currentPosition = [currentPosition[0] - 1, currentPosition[1]];
   }
   return positionArray;
 }
