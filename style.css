@@ -14,3 +14,11 @@ td {
 .miss {
   background-color: red;
 }
+
+#ships {
+  float: right;
+}
+
+table {
+  display: inline-block;
+}

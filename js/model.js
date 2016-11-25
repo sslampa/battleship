@@ -32,7 +32,7 @@ function checkHitOrMiss(classAtPos, shipArray) {
 }
 
 //Remove and check if that ship has been sank
-function checkShipStatus(indShips, classAtPos) {
+function checkShipStatus(indShips, classAtPos, copyShips, ships) {
   for (var x = 0; x < indShips.length; x++) {
     console.log(JSON.stringify(indShips[x]));
     console.log(classAtPos);
@@ -41,11 +41,12 @@ function checkShipStatus(indShips, classAtPos) {
       indShips[x].splice(indShips[x].indexOf(classAtPos), 1);
 
       if (indShips[x].length === 0) {
-        return [true, x];
+        copyShips.splice(copyShips.indexOf(ships[x]), 1);
+        return [true, x, copyShips];
       }
     }
   }
-  return [false];
+  return [false, -1, copyShips];
 }
 
 //This updates your missile count
