@@ -4,32 +4,48 @@ var MISS = -1;
 var EMPTY = 0;
 var HIT = 1;
 var SHIP = 200;
-var ships = [4, 4, 3, 3, 2, 2];
+var ships = [5, 4, 4, 3, 3, 2, 2, 1];
 var numShips = ships.length;
-var counter = 25;
+var counter = 50;
 
 //check wheather you win or lose and check weather you have run out of missiles
 function checkWin(shipArray) {
-  if (shipArray.length === 0 && counter > 0) {
+  if (shipArray.length === 0 && counter >= 0) {
     return 1;
-  } else if (counter <= 0){
+  } else if (counter === 0){
     return 0;
   }
 }
 
 //Check for hit or miss at position
-function checkHitOrMiss(idAtPos, shipArray) {
+function checkHitOrMiss(classAtPos, shipArray) {
   //check if it is included in our ship position array
   //if it is in ship array, it is a hit => true
   //else, it is a miss=> false
-  if (shipArray.includes(idAtPos)) {
-    shipArray.splice(shipArray.indexOf(idAtPos), 1);
-    console.log(idAtPos);
-    console.log(shipArray);
+  if (shipArray.includes(classAtPos)) {
+    shipArray.splice(shipArray.indexOf(classAtPos), 1);
+    //console.log(JSON.stringify(shipArray));
     return true;
   } else {
     return false;
   }
+}
+
+//Remove and check if that ship has been sank
+function checkShipStatus(indShips, classAtPos) {
+  for (var x = 0; x < indShips.length; x++) {
+    console.log(JSON.stringify(indShips[x]));
+    console.log(classAtPos);
+    if (indShips[x].includes(classAtPos)) {
+      console.log("This runs");
+      indShips[x].splice(indShips[x].indexOf(classAtPos), 1);
+
+      if (indShips[x].length === 0) {
+        return [true, x];
+      }
+    }
+  }
+  return [false];
 }
 
 //This updates your missile count
@@ -42,7 +58,7 @@ function missileCheck() {
 function makeBoard(n) {
 
   //empty board to be returned
-  var newBoard = []
+  var newBoard = [];
 
   //Iterating through the n number of rows
   for (var iter = 0; iter < n; iter++) {
@@ -58,6 +74,23 @@ function makeBoard(n) {
   }
 
   return newBoard;
+}
+
+function createPackage(ships, numShips, n, shipArray) {
+  var tempArray = [];
+  var packaged = [];
+  var copyArray = shipArray.slice();
+
+  for (var x = 0; x < numShips; x++) {
+    for (var i = 0; i < ships[x]; i++) {
+      tempArray.push(copyArray.splice(0, 1)[0]);
+    }
+
+    packaged.push(tempArray);
+    tempArray = [];
+  }
+
+  return packaged;
 }
 
 //Generates ships at random positions on the board
@@ -76,14 +109,15 @@ function addShips(ships, board, n, numShips) {
     shipArray.push(array[iter].join("-"));
   });
 
-  console.log(shipArray);
+//  console.log("Happens");
+//  console.log(JSON.stringify(shipArray));
   return shipArray;
 }
 
 //Function that generates random positions on the board
 function randPos(numShips, n, ships) {
   var toAdd = 0;
-  var direction = 1;
+  var direction = Math.round(Math.random());
   var trash = [];
   var currentPosition;
   var currentArray = [];
@@ -118,6 +152,7 @@ function randPos(numShips, n, ships) {
           currentArray = [];
           trash = [];
           direction = (direction === 0) ? 1 : 0;
+
           break;
         }
       } else {
@@ -128,7 +163,6 @@ function randPos(numShips, n, ships) {
 
 
   }
-  console.log(positionArray);
   return positionArray;
 }
 
