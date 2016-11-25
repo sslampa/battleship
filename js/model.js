@@ -4,7 +4,7 @@ var MISS = -1;
 var EMPTY = 0;
 var HIT = 1;
 var SHIP = 200;
-var ships = [5, 4, 3, 2, 1];
+var ships = [4, 4, 3, 3, 2, 2];
 var numShips = ships.length;
 var counter = 25;
 
@@ -12,7 +12,7 @@ var counter = 25;
 function checkWin(shipArray) {
   if (shipArray.length === 0 && counter > 0) {
     return 1;
-  } else if (counter === 0){
+  } else if (counter <= 0){
     return 0;
   }
 }
@@ -23,7 +23,9 @@ function checkHitOrMiss(idAtPos, shipArray) {
   //if it is in ship array, it is a hit => true
   //else, it is a miss=> false
   if (shipArray.includes(idAtPos)) {
-    console.log(shipArray.splice(shipArray.indexOf(idAtPos), 1));
+    shipArray.splice(shipArray.indexOf(idAtPos), 1);
+    console.log(idAtPos);
+    console.log(shipArray);
     return true;
   } else {
     return false;
@@ -62,7 +64,6 @@ function makeBoard(n) {
 function addShips(ships, board, n, numShips) {
   //Gets and sets position for the number of ships
   var array = randPos(numShips, n, ships);
-  //console.log(array);
   //Holds the updated indexes for ship placement
   var shipArray = [];
 
@@ -82,11 +83,10 @@ function addShips(ships, board, n, numShips) {
 //Function that generates random positions on the board
 function randPos(numShips, n, ships) {
   var toAdd = 0;
+  var direction = 1;
   var trash = [];
   var currentPosition;
-  //var prevPosition = [-1, -1];
   var currentArray = [];
-  //Holds values for the random positions of ships
   var positionArray = [];
 
   //Get position for each ship and make sure they do not overlap
@@ -94,11 +94,16 @@ function randPos(numShips, n, ships) {
     while (true) {
       currentPosition = [Math.floor(Math.random() * n), Math.floor(Math.random() * n)];
 
-      if (((currentPosition[0] + ships[i]) <= n) && !trash.includes(currentPosition.join("-"))) {
+      if (((currentPosition[direction] + ships[i]) <= n) && !trash.includes(currentPosition.join("-"))) {
         toAdd = 0;
         for (var x = 0; x < ships[i]; x++) {
-          currentArray.push([currentPosition[0] + toAdd, currentPosition[1]]);
-          toAdd += 1;
+          if (direction === 0) {
+            currentArray.push([currentPosition[0] + toAdd, currentPosition[1]]);
+            toAdd++;
+          } else {
+            currentArray.push([currentPosition[0], currentPosition[1] + toAdd]);
+            toAdd++;
+          }
         }
 
         if (checkDiag(currentArray, positionArray) ||
@@ -112,6 +117,7 @@ function randPos(numShips, n, ships) {
           }
           currentArray = [];
           trash = [];
+          direction = (direction === 0) ? 1 : 0;
           break;
         }
       } else {
@@ -129,8 +135,6 @@ function randPos(numShips, n, ships) {
 function checkHori(curArray, posArray) {
   for (var iter = 0; iter < curArray.length; iter++) {
     for (var i = 0; i < posArray.length; i++) {
-    //console.log("Current: " + curArray[iter]);
-    //console.log("In array: " + posArray[i]);
       if (posArray[i][0] === curArray[iter][0] &&
          (posArray[i][1] === curArray[iter][1] + 1 ||
           posArray[i][1] === curArray[iter][1] - 1 ||
@@ -146,8 +150,6 @@ function checkHori(curArray, posArray) {
 function checkVert(curArray, posArray) {
   for (var iter = 0; iter < curArray.length; iter++) {
     for (var i = 0; i < posArray.length; i++) {
-      //console.log("Current: " + curArray[iter]);
-      //console.log("In array: " + posArray[i]);
       if (posArray[i][1] === curArray[iter][1] &&
          (posArray[i][0] === curArray[iter][0] + 1 ||
           posArray[i][0] === curArray[iter][0] - 1 ||
@@ -163,8 +165,6 @@ function checkVert(curArray, posArray) {
 function checkDiag(curArray, posArray) {
   for (var iter = 0; iter < curArray.length; iter++) {
     for (var i = 0; i < posArray.length; i++) {
-      //console.log("Current: " + curArray[iter]);
-      //console.log("In array: " + posArray[i]);
       if (
         ((posArray[i][0] === curArray[iter][0] + 1) && (posArray[i][1] === curArray[iter][1] - 1)) ||
         ((posArray[i][0] === curArray[iter][0] - 1) && (posArray[i][1] === curArray[iter][1] + 1)) ||
@@ -178,56 +178,3 @@ function checkDiag(curArray, posArray) {
 
   return false;
 }
-// function checkHori(prev, curr, posArray) {
-//   var currRow = curr[0];
-//   var currCol = curr[1];
-//   var prevRow = prev[0];
-//   var prevCol = prev[1];
-//
-//   for (var iter = 0; iter < posArray.length; iter++) {
-//     if ((posArray[iter][0] === currRow) &&
-//        (((posArray[iter][1] === currCol + 1) && (posArray[iter][1] !== prevCol)) || ((posArray[iter][1] === currCol - 1)) && (posArray[iter][1] !== prevCol))) {
-//         return true;
-//       }
-//   }
-//
-//   return false;
-// }
-//
-// //checkHori([1, 0], [1, 1], [[2, 1], [0, 1], [1, 0], [1, 2]]);
-//
-// function checkVert(prev, curr, posArray) {
-//   var currRow = curr[0];
-//   var currCol = curr[1];
-//   var prevRow = prev[0];
-//   var prevCol = prev[1];
-//
-//     for (var iter = 0; iter < posArray.length; iter++) {
-//       if ((posArray[iter][1] === currCol) &&
-//          (((posArray[iter][0] === currRow + 1) && (posArray[iter][0] !== prevRow)) || ((posArray[iter][0] === currRow - 1)) && (posArray[iter][0] !== prevRow))) {
-//           return true;
-//       }
-//   }
-//
-//   return false;
-// }
-//
-// //checkVert([0,1], [1, 1], [[0,1], [1, 2]]); //[2,1], [0,1]
-//
-// function checkDiag(curr, posArray) {
-//   var currRow = curr[0];
-//   var currCol = curr[1];
-//
-//   for (var iter = 0; iter < posArray.length; iter++) {
-//     if (
-//       ((posArray[iter][0] === currRow + 1) && (posArray[iter][1] === currCol - 1)) ||
-//       ((posArray[iter][0] === currRow - 1) && (posArray[iter][1] === currCol + 1)) ||
-//       ((posArray[iter][0] === currRow - 1) && (posArray[iter][1] === currCol - 1)) ||
-//       ((posArray[iter][0] === currRow + 1) && (posArray[iter][1] === currCol + 1))
-//       ) {
-//       return true;
-//       }
-//   }
-//
-//   return false;
-// }
