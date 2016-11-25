@@ -151,7 +151,7 @@ function randPos(numShips, n, ships) {
             positionArray.push(currentArray[iter]);
           }
           currentArray = [];
-          trash = [];
+          //trash = [];
           direction = (direction === 0) ? 1 : 0;
 
           break;

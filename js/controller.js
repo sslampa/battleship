@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+  $("#counter").text("You have " + counter + " missile(s) left.");
 
   //Create nxn board - n is length
   for (var iter = 0; iter < n; iter++) {
@@ -17,7 +17,7 @@ $(document).ready(function() {
   var copyShips = ships.slice();
   //console.log(JSON.stringify(shipArray));
   console.log(JSON.stringify(indShips));
-
+  $("#ships").text("Ships remaining: " + copyShips.join(", "));
 
   // for (var i = 0; i < shipArray.length; i++) {
   //   $("." + shipArray[i]).text("X");
@@ -28,14 +28,14 @@ $(document).ready(function() {
 
 
     //updates users missile count
-    $("#counter").text("You have " + missileCheck());
+    $("#counter").text("You have " + missileCheck() + " missile(s) left.");
 
     //changes class based on hit or miss
     if (checkHitOrMiss($(this).attr("class"), shipArray)) {
       check = checkShipStatus(indShips, $(this).attr("class"), copyShips, ships);
       if (check[0]) {
-        $("#ships").append("<p>" + "You destroyed a " +  ships[check[1]] + "-block ship!" + "</p>");
-        $("#ships").append("<p>" + "There are " + check[2].join(", ") + "-block ship(s) left!" + "</p>");
+        $("#status").append("<p>You destroyed a " +  ships[check[1]] + "-block ship!</p>");
+        $("#ships").text("Ships remaining: " + check[2].join(", "));
       }
       $(this).addClass("hit");
       if (checkWin(shipArray) === 1) {
