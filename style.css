@@ -19,6 +19,16 @@ td {
   cursor: pointer;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+  font-size: 10px;
+}
+
+.fa-linkedin-square:hover, .fa-twitter-square:hover, .fa-github-square:hover {
+  text-decoration: underline;
+}
+
 .hit {
   background-color: green;
 }
@@ -33,7 +43,8 @@ td {
 
 #game, #info {
   /*flex-grow: 2;*/
-  flex-basis: 20%;
+  flex-basis: 18%;
+  flex-shrink: 5;
   background-color: white;/*#c2b280;*/
   color: black;
   border: 15px solid #c2b280;
@@ -53,12 +64,16 @@ table {
   flex-basis: 50%;*/
 }
 
-.header {
+.header, #footer {
   flex-grow: 1;
   flex-basis: 100%;
   text-align: center;
   background-color: #74b560;
   border-radius: 15px;
+}
+
+#footer {
+  padding-bottom: 5px;
 }
 
 #rules-head {
@@ -115,7 +130,7 @@ ul > li {
     justify-content: flex-start;
   }
 
-  .header {
+  .header, #footer {
     flex-shrink: 3;
     flex-basis: 10%;
   }

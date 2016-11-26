@@ -43,7 +43,7 @@ $(document).ready(function() {
       $(this).addClass("hit");
       $(this).text("O");
       if (checkWin(shipArray)) {
-        $("#winOrLose").text("You win!");
+        $("#winOrLose").text("You win!").css({"color": "green"});
         $("td").off();
       } else if (counter === 0) {
         $("#winOrLose").text("You lose!");
@@ -57,7 +57,7 @@ $(document).ready(function() {
       $(this).addClass("miss");
       $(this).text("X");
       if (counter === 0) {
-        $("#winOrLose").text("You lose!");
+        $("#winOrLose").text("You lose!").css({"color": "red"});
         $("td").off();
         for (var i = 0; i < shipArray.length; i++) {
           $("." + shipArray[i]).addClass("show-ship");
