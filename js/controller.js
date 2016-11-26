@@ -15,13 +15,11 @@ $(document).ready(function() {
   var indShips = createPackage(ships, numShips, n, shipArray);
   var check;
   var copyShips = ships.slice();
-  //console.log(JSON.stringify(shipArray));
-  console.log(JSON.stringify(indShips));
   $("#ships").text("Ships remaining: " + copyShips.join(", "));
 
-  // for (var i = 0; i < shipArray.length; i++) {
-  //   $("." + shipArray[i]).text("X");
-  // }
+  for (var i = 0; i < shipArray.length; i++) {
+    $("." + shipArray[i]).text("X");
+  }
 
   //Change background color based on hit or miss
   $("td").on("click", function() {
@@ -34,19 +32,20 @@ $(document).ready(function() {
     if (checkHitOrMiss($(this).attr("class"), shipArray)) {
       check = checkShipStatus(indShips, $(this).attr("class"), copyShips, ships);
       if (check[0]) {
-        $("#status").append("<p>You destroyed a " +  ships[check[1]] + "-block ship!</p>");
+        $("#status").prepend("<p>You destroyed a " +  ships[check[1]] + "-block ship!</p>");
         $("#ships").text("Ships remaining: " + check[2].join(", "));
       }
       $(this).addClass("hit");
-      if (checkWin(shipArray) === 1) {
+      if (checkWin(shipArray)) {
         $("#winOrLose").text("You win!");
         $("td").off();
-      } else if (checkWin(shipArray) === 0) {
+      } else if (counter === 0) {
         $("#winOrLose").text("You lose!");
+        $("td").off();
       }
     } else {
       $(this).addClass("miss");
-      if (checkWin(shipArray) === 0) {
+      if (counter === 0) {
         $("#winOrLose").text("You lose!");
         $("td").off();
         for (var i = 0; i < shipArray.length; i++) {

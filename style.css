@@ -1,3 +1,7 @@
+* {
+  font-family: arial;
+}
+
 .container {
   display: flex;
   flex-direction: row;
@@ -6,10 +10,10 @@
 }
 
 td {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border: 1px solid black;
-  background-color: #d3d3d3;
+  background-color: #40a4df;
   text-align: center;
   font-size: 30px;
 }
@@ -25,10 +29,11 @@ td {
 #game, #info {
   /*flex-grow: 2;*/
   flex-basis: 20%;
-  background-color: blue;
-  color: white;
-  border: 4px solid white;
+  background-color: white;/*#c2b280;*/
+  color: black;
+  border: 15px solid #c2b280;
   text-align: center;
+  border-radius: 15px;
 }
 
 table {
@@ -40,5 +45,30 @@ table {
   flex-grow: 1;
   flex-basis: 100%;
   text-align: center;
-  background-color: #b3b3b3;
+  background-color: #74b560;
+  border-radius: 15px;
+}
+
+h3 {
+  border-bottom: 2px solid black;
+}
+
+ul > li {
+  text-align: left;
+}
+
+@media all and (max-width: 1000px) {
+  .container {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .header {
+    flex-shrink: 3;
+    flex-basis: 10%;
+  }
+
+  #game, #info {
+    flex-basis: 15%
+  }
 }

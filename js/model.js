@@ -11,9 +11,7 @@ var counter = 50;
 //check wheather you win or lose and check weather you have run out of missiles
 function checkWin(shipArray) {
   if (shipArray.length === 0 && counter >= 0) {
-    return 1;
-  } else if (counter === 0){
-    return 0;
+    return true;
   }
 }
 
@@ -24,7 +22,6 @@ function checkHitOrMiss(classAtPos, shipArray) {
   //else, it is a miss=> false
   if (shipArray.includes(classAtPos)) {
     shipArray.splice(shipArray.indexOf(classAtPos), 1);
-    //console.log(JSON.stringify(shipArray));
     return true;
   } else {
     return false;
@@ -34,10 +31,7 @@ function checkHitOrMiss(classAtPos, shipArray) {
 //Remove and check if that ship has been sank
 function checkShipStatus(indShips, classAtPos, copyShips, ships) {
   for (var x = 0; x < indShips.length; x++) {
-    console.log(JSON.stringify(indShips[x]));
-    console.log(classAtPos);
     if (indShips[x].includes(classAtPos)) {
-      console.log("This runs");
       indShips[x].splice(indShips[x].indexOf(classAtPos), 1);
 
       if (indShips[x].length === 0) {
@@ -110,8 +104,6 @@ function addShips(ships, board, n, numShips) {
     shipArray.push(array[iter].join("-"));
   });
 
-//  console.log("Happens");
-//  console.log(JSON.stringify(shipArray));
   return shipArray;
 }
 
