@@ -1,5 +1,5 @@
 * {
-  font-family: arial;
+  font-family: 'Press Start 2P', arial;
 }
 
 .container {
@@ -16,6 +16,7 @@ td {
   background-color: #40a4df;
   text-align: center;
   font-size: 30px;
+  cursor: pointer;
 }
 
 .hit {
@@ -26,6 +27,10 @@ td {
   background-color: red;
 }
 
+.show-ship {
+  background-color: #b3b3b3;
+}
+
 #game, #info {
   /*flex-grow: 2;*/
   flex-basis: 20%;
@@ -34,6 +39,13 @@ td {
   border: 15px solid #c2b280;
   text-align: center;
   border-radius: 15px;
+}
+
+.destroyed {
+  border-bottom: 2px solid #b3b3b3;
+  padding-bottom: 5px;
+  /*padding-top: 5px;
+  border-top: 2px solid #b3b3b3;*/
 }
 
 table {
@@ -49,12 +61,52 @@ table {
   border-radius: 15px;
 }
 
-h3 {
-  border-bottom: 2px solid black;
+#rules-head {
+  border-bottom: 2px solid #b3b3b3;
+  border-top: 2px solid #b3b3b3;
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+
+#log {
+  border-bottom: 2px solid #b3b3b3;
+  padding-bottom: 5px;
+}
+
+#ships {
+  border-bottom: 2px solid #b3b3b3;
+  padding-bottom: 5px;
+  line-height: 1.2em;
 }
 
 ul > li {
   text-align: left;
+  margin-top: 10px;
+}
+
+#green-box {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+}
+
+#red-box {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}
+
+#gray-box {
+  width: 10px;
+  height: 10px;
+  background-color: #b3b3b3;
+}
+
+#something {
+  color: red;
+  border-bottom: 2px solid #b3b3b3;
+  padding-bottom: 10px;
+  font-size: 24px;
 }
 
 @media all and (max-width: 1000px) {

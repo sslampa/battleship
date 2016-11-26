@@ -3,6 +3,7 @@
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/model.js"></script>
     <script src="js/controller.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link href="style.css" type="text/css" rel="stylesheet">
     <title>Battleship</title>
   </head>
@@ -14,18 +15,22 @@
       <div id="info">
         <h2 id="winOrLose"></h2>
         <p id="counter">You have 50</p>
-        <h3>Rules of the Game</h3>
+        <h3 id="rules-head">Rules of the Game</h3>
         <ul>
           <li>There are 8 total ships.</li>
           <li>Each boat consists of either 5, 4, 3, 2, 1.</li>
           <li>There are both horizontal and vertical boats for 4, 3, and 2-blocks.</li>
           <li>The 5-block ship is rotated randomly.</li>
+          <li><span id="green-box">o</span> Means hit.</li>
+          <li><span id="red-box">x</span> Means miss.</li>
+          <li><span id="gray-box">|</span> Shows location of ships when you lose.</p>
         </ul>
       </div>
       <table></table>
       <div id="game">
         <p id="ships"></p>
-        <p id="status"></p>
+        <p id="something"></p>
+        <h3 id="log">Log</h3>
       </div>
     </div>
   </body>

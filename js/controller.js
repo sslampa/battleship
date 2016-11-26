@@ -15,11 +15,11 @@ $(document).ready(function() {
   var indShips = createPackage(ships, numShips, n, shipArray);
   var check;
   var copyShips = ships.slice();
-  $("#ships").text("Ships remaining: " + copyShips.join(", "));
+  $("#ships").text("Ship(s) remaining: " + copyShips.join(", "));
 
-  for (var i = 0; i < shipArray.length; i++) {
-    $("." + shipArray[i]).text("X");
-  }
+  // for (var i = 0; i < shipArray.length; i++) {
+  //   $("." + shipArray[i]).text("X");
+  // }
 
   //Change background color based on hit or miss
   $("td").on("click", function() {
@@ -32,24 +32,36 @@ $(document).ready(function() {
     if (checkHitOrMiss($(this).attr("class"), shipArray)) {
       check = checkShipStatus(indShips, $(this).attr("class"), copyShips, ships);
       if (check[0]) {
-        $("#status").prepend("<p>You destroyed a " +  ships[check[1]] + "-block ship!</p>");
-        $("#ships").text("Ships remaining: " + check[2].join(", "));
+        $("#something").text("Sunk!").animate({opacity: 1}, function() {
+          $("#something").text("Sunk!").animate({opacity: 0}, 500);
+        });
+        $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
+          "-block ship!</p>");
+        $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
+
       }
       $(this).addClass("hit");
+      $(this).text("O");
       if (checkWin(shipArray)) {
         $("#winOrLose").text("You win!");
         $("td").off();
       } else if (counter === 0) {
         $("#winOrLose").text("You lose!");
         $("td").off();
+        for (var i = 0; i < shipArray.length; i++) {
+          $("." + shipArray[i]).addClass("show-ship");
+          $("." + shipArray[i]).text("|");
+        }
       }
     } else {
       $(this).addClass("miss");
+      $(this).text("X");
       if (counter === 0) {
         $("#winOrLose").text("You lose!");
         $("td").off();
         for (var i = 0; i < shipArray.length; i++) {
-          $("." + shipArray[i]).text("X");
+          $("." + shipArray[i]).addClass("show-ship");
+          $("." + shipArray[i]).text("|");
         }
 
       }
