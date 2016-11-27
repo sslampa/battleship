@@ -45,8 +45,8 @@ function checkShipStatus(indShips, classAtPos, copyShips, ships) {
 
 //This updates your missile count
 function missileCheck() {
-  counter--;
-  return counter;
+  console.log(counter);
+  return counter--;
 }
 
 //Creates empty board

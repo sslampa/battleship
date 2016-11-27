@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("#counter").text("You have " + counter + " missile(s) left.");
+  $("#counter").text("You have " + missileCheck() + " missile(s) left.");
 
   //Create nxn board - n is length
   for (var iter = 0; iter < n; iter++) {
@@ -17,57 +17,60 @@ $(document).ready(function() {
   var copyShips = ships.slice();
   $("#ships").text("Ship(s) remaining: " + copyShips.join(", "));
 
-  // for (var i = 0; i < shipArray.length; i++) {
-  //   $("." + shipArray[i]).text("X");
-  // }
+  for (var i = 0; i < shipArray.length; i++) {
+    $("#" + shipArray[i]).text("X");
+  }
 
-  //Change background color based on hit or miss
+  // //Change background color based on hit or miss
+  // $("td").on("click", function() {
+  //
+  //
+  //   //updates users missile count
+  //   $("#counter").text("You have " + missileCheck() + " missile(s) left.");
+  //
+  //   //changes class based on hit or miss
+  //   if (checkHitOrMiss($(this).attr("id"), shipArray)) {
+  //     check = checkShipStatus(indShips, $(this).attr("id"), copyShips, ships);
+  //     if (check[0]) {
+  //       $("#something").text("Sunk!").animate({opacity: 1}, function() {
+  //         $("#something").text("Sunk!").animate({opacity: 0}, 500);
+  //       });
+  //       $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
+  //         "-block ship!</p>");
+  //       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
+  //     }
+  //     $(this).addClass("hit");
+  //     $(this).text("O");
+  //     if (checkWin(shipArray)) {
+  //       $("#winOrLose").text("You win!").css({"color": "green"});
+  //       $("td").off();
+  //     } else if (counter === 0) {
+  //       $("#winOrLose").text("You lose!");
+  //       $("td").off();
+  //       for (var i = 0; i < shipArray.length; i++) {
+  //         $("#" + shipArray[i]).addClass("show-ship");
+  //         $("#" + shipArray[i]).text("|");
+  //       }
+  //     }
+  //   } else {
+  //     $(this).addClass("miss");
+  //     $(this).text("X");
+  //     if (counter === 0) {
+  //       $("#winOrLose").text("You lose!").css({"color": "red"});
+  //       $("td").off();
+  //       for (var i = 0; i < shipArray.length; i++) {
+  //         $("#" + shipArray[i]).addClass("show-ship");
+  //         $("#" + shipArray[i]).text("|");
+  //       }
+  //
+  //     }
+  //   }
+  //
+  //   $(this).off();
+  //
+  // });
   $("td").on("click", function() {
-
-
-    //updates users missile count
-    $("#counter").text("You have " + missileCheck() + " missile(s) left.");
-
-    //changes class based on hit or miss
-    if (checkHitOrMiss($(this).attr("id"), shipArray)) {
-      check = checkShipStatus(indShips, $(this).attr("id"), copyShips, ships);
-      if (check[0]) {
-        $("#something").text("Sunk!").animate({opacity: 1}, function() {
-          $("#something").text("Sunk!").animate({opacity: 0}, 500);
-        });
-        $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
-          "-block ship!</p>");
-        $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
-      }
-      $(this).addClass("hit");
-      $(this).text("O");
-      if (checkWin(shipArray)) {
-        $("#winOrLose").text("You win!").css({"color": "green"});
-        $("td").off();
-      } else if (counter === 0) {
-        $("#winOrLose").text("You lose!");
-        $("td").off();
-        for (var i = 0; i < shipArray.length; i++) {
-          $("#" + shipArray[i]).addClass("show-ship");
-          $("#" + shipArray[i]).text("|");
-        }
-      }
-    } else {
-      $(this).addClass("miss");
-      $(this).text("X");
-      if (counter === 0) {
-        $("#winOrLose").text("You lose!").css({"color": "red"});
-        $("td").off();
-        for (var i = 0; i < shipArray.length; i++) {
-          $("#" + shipArray[i]).addClass("show-ship");
-          $("#" + shipArray[i]).text("|");
-        }
-
-      }
-    }
-
-    $(this).off();
-
+    clickerFunction(this, shipArray, indShips, copyShips, ships, check, counter);
   });
 
   $("button").on("click", function() {
@@ -77,116 +80,126 @@ $(document).ready(function() {
     check = [];
     copyShips = ships.slice();
 
+    $("td").off();
     $(".destroyed").remove();
     $("td").removeClass();
     $("td").text("");
     $("#winOrLose").text("");
     $("#winOrLose").removeAttr("style");
-    $("#counter").text("You have " + counter + " missile(s) left.");
+    $("#counter").text("You have " + missileCheck() + " missile(s) left.");
     $("#ships").text("Ship(s) remaining: " + copyShips.join(", "));
-
+    $("td").on("click", function() {
+      clickerFunction(this, shipArray, indShips, copyShips, ships, check, counter);
+    });
+  });
     // for (var i = 0; i < shipArray.length; i++) {
     //   $("." + shipArray[i]).text("X");
     // }
 
     //Change background color based on hit or miss
-    $("td").on("click", function() {
-
-
-      //updates users missile count
-      $("#counter").text("You have " + missileCheck() + " missile(s) left.");
-
-      //changes class based on hit or miss
-      if (checkHitOrMiss($(this).attr("id"), shipArray)) {
-        check = checkShipStatus(indShips, $(this).attr("id"), copyShips, ships);
-        if (check[0]) {
-          $("#something").text("Sunk!").animate({opacity: 1}, function() {
-            $("#something").text("Sunk!").animate({opacity: 0}, 500);
-          });
-          $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
-            "-block ship!</p>");
-          $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
-        }
-        $(this).addClass("hit");
-        $(this).text("O");
-        if (checkWin(shipArray)) {
-          $("#winOrLose").text("You win!").css({"color": "green"});
-          $("td").off();
-        } else if (counter === 0) {
-          $("#winOrLose").text("You lose!");
-          $("td").off();
-          for (var i = 0; i < shipArray.length; i++) {
-            $("#" + shipArray[i]).addClass("show-ship");
-            $("#" + shipArray[i]).text("|");
-          }
-        }
-      } else {
-        $(this).addClass("miss");
-        $(this).text("X");
-        if (counter === 0) {
-          $("#winOrLose").text("You lose!").css({"color": "red"});
-          $("td").off();
-          for (var i = 0; i < shipArray.length; i++) {
-            $("#" + shipArray[i]).addClass("show-ship");
-            $("#" + shipArray[i]).text("|");
-          }
-
-        }
-      }
-
-      $(this).off();
-
-    });
-  })
+    // $("td").on("click", function() {
+    //
+    //
+    //   //updates users missile count
+    //   $("#counter").text("You have " + missileCheck() + " missile(s) left.");
+    //
+    //   //changes class based on hit or miss
+    //   if (checkHitOrMiss($(this).attr("id"), shipArray)) {
+    //     check = checkShipStatus(indShips, $(this).attr("id"), copyShips, ships);
+    //     if (check[0]) {
+    //       $("#something").text("Sunk!").animate({opacity: 1}, function() {
+    //         $("#something").text("Sunk!").animate({opacity: 0}, 500);
+    //       });
+    //       $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
+    //         "-block ship!</p>");
+    //       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
+    //     }
+    //     $(this).addClass("hit");
+    //     $(this).text("O");
+    //     if (checkWin(shipArray)) {
+    //       $("#winOrLose").text("You win!").css({"color": "green"});
+    //       $("td").off();
+    //     } else if (counter === 0) {
+    //       $("#winOrLose").text("You lose!");
+    //       $("td").off();
+    //       for (var i = 0; i < shipArray.length; i++) {
+    //         $("#" + shipArray[i]).addClass("show-ship");
+    //         $("#" + shipArray[i]).text("|");
+    //       }
+    //     }
+    //   } else {
+    //     $(this).addClass("miss");
+    //     $(this).text("X");
+    //     if (counter === 0) {
+    //       $("#winOrLose").text("You lose!").css({"color": "red"});
+    //       $("td").off();
+    //       for (var i = 0; i < shipArray.length; i++) {
+    //         $("#" + shipArray[i]).addClass("show-ship");
+    //         $("#" + shipArray[i]).text("|");
+    //       }
+    //
+    //     }
+    //   }
+    //
+    //   $(this).off();
+    //
+    // });
 });
 
-// var shipArray = addShips(ships, board, n, numShips);
-// var indShips = createPackage(ships, numShips, n, shipArray);
-// var check;
-// var copyShips = ships.slice();
-// $("#ships").text("Ship(s) remaining: " + copyShips.join(", "));
-//
-// $("td").on("click", function() {
-//
-//   //updates users missile count
-//   $("#counter").text("You have " + missileCheck() + " missile(s) left.");
-//
-//   //changes class based on hit or miss
-//   if (checkHitOrMiss($(this).attr("class"), shipArray)) {
-//     check = checkShipStatus(indShips, $(this).attr("class"), copyShips, ships);
-//     if (check[0]) {
-//       $("#something").text("Sunk!").animate({opacity: 1}, function() {
-//         $("#something").text("Sunk!").animate({opacity: 0}, 500);
-//       });
-//       $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
-//       "-block ship!</p>");
-//       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
-//
-//     }
-//     $(this).addClass("hit");
-//     $(this).text("O");
-//     if (checkWin(shipArray)) {
-//       $("#winOrLose").text("You win!").css({"color": "green"});
-//       $("td").off();
-//     } else if (counter === 0) {
-//       $("#winOrLose").text("You lose!");
-//       $("td").off();
-//       for (var i = 0; i < shipArray.length; i++) {
-//         $("." + shipArray[i]).addClass("show-ship");
-//         $("." + shipArray[i]).text("|");
-//       }
-//     }
-//   } else {
-//     $(this).addClass("miss");
-//     $(this).text("X");
-//     if (counter === 0) {
-//       $("#winOrLose").text("You lose!").css({"color": "red"});
-//       $("td").off();
-//       for (var i = 0; i < shipArray.length; i++) {
-//         $("." + shipArray[i]).addClass("show-ship");
-//         $("." + shipArray[i]).text("|");
-//       }
-//
-//     }
-//   }
-// });
+
+function clickerFunction(x, shipArray, indShips, copyShips, ships, check, counter) {
+  // var shipArray = addShips(ships, board, n, numShips);
+  // var indShips = createPackage(ships, numShips, n, shipArray);
+  // var check;
+  // var copyShips = ships.slice();
+  // $("td").on("click", function() {
+
+
+  //updates users missile count
+  console.log("first: " + counter);
+  $("#counter").text("You have " + missileCheck() + " missile(s) left.");
+  console.log("second: " + counter);
+
+  //changes class based on hit or miss
+  if (checkHitOrMiss($(x).attr("id"), shipArray)) {
+    check = checkShipStatus(indShips, $(x).attr("id"), copyShips, ships);
+    if (check[0]) {
+      $("#something").text("Sunk!").animate({opacity: 1}, function() {
+        $("#something").text("Sunk!").animate({opacity: 0}, 500);
+      });
+      $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
+      "-block ship!</p>");
+      $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
+    }
+    $(x).addClass("hit");
+    $(x).text("O");
+    console.log(shipArray);
+    if (checkWin(shipArray)) {
+      $("#winOrLose").text("You win!").css({"color": "green"});
+      $("td").off();
+    } else if (counter === 0) {
+      $("#winOrLose").text("You lose!");
+      $("td").off();
+      for (var i = 0; i < shipArray.length; i++) {
+        $("#" + shipArray[i]).addClass("show-ship");
+        $("#" + shipArray[i]).text("|");
+      }
+    }
+  } else {
+    $(x).addClass("miss");
+    $(x).text("X");
+    if (counter === 0) {
+      $("#winOrLose").text("You lose!").css({"color": "red"});
+      $("td").off();
+      for (var i = 0; i < shipArray.length; i++) {
+        $("#" + shipArray[i]).addClass("show-ship");
+        $("#" + shipArray[i]).text("|");
+      }
+
+    }
+  }
+
+  $(x).off();
+
+  //});
+}
