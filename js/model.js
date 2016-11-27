@@ -11,7 +11,7 @@ var counter = 50;
 //Check for win or loss
 function checkWin(shipArray) {
 
-  if (shipArray.length === 0 && counter >= 0) {
+  if (shipArray.length === 0) {
     return true;
   }
 
@@ -73,14 +73,11 @@ function makeBoard(n) {
 
   //Empty board array to be returned
   var newBoard = [];
+  var emptyArray = [];
 
-  //Iterating through the n number of rows
   for (var iter = 0; iter < n; iter++) {
 
-    //Temporary array that will push empty values to newBoard
-    var emptyArray = [];
-
-    //Iterates through the n number of columns
+    emptyArray = [];
     for (var i = 0; i < n; i++) {
       emptyArray.push(0);
     }
@@ -229,7 +226,7 @@ function checkHori(curArray, posArray) {
          (posArray[i][1] === curArray[iter][1] + 1 ||
           posArray[i][1] === curArray[iter][1] - 1 ||
           posArray[i][1] === curArray[iter][1])) {
-            
+
             return true;
       }
     }
