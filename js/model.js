@@ -45,7 +45,6 @@ function checkShipStatus(indShips, classAtPos, copyShips, ships) {
 
 //This updates your missile count
 function missileCheck() {
-  console.log(counter);
   return counter--;
 }
 

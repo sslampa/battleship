@@ -1,167 +1,99 @@
 $(document).ready(function() {
-  $("#counter").text("You have " + missileCheck() + " missile(s) left.");
+  //Carries all ship locations
+  var shipArray = addShips(ships, board, n, numShips);
 
-  //Create nxn board - n is length
+  //Packages the correct m-block ships
+  var indShips = createPackage(ships, numShips, n, shipArray);
+
+  //Makes a hard copy of ships so that it is not overwritten
+  var copyShips = ships.slice();
+
+  //Will hold values from checkShipStatus in the form of [boolean, number, array]
+  var check = [];
+
+  /*
+  ** Create N x N board - N is length of board
+  ** ids are based on indexed position
+  */
+  //Rows
   for (var iter = 0; iter < n; iter++) {
     $("table").append("<tr id=" + iter + "></tr>");
 
+    //Columns
     for (var i = 0; i < n; i++) {
       $("#" + iter).append("<td id=" + iter + "-" + i +"></td>");
     }
   }
 
-  //add ships to board and change symbols
-  var shipArray = addShips(ships, board, n, numShips);
-  var indShips = createPackage(ships, numShips, n, shipArray);
-  var check;
-  var copyShips = ships.slice();
+  //Message for which m-block ships are left
   $("#ships").text("Ship(s) remaining: " + copyShips.join(", "));
 
-  for (var i = 0; i < shipArray.length; i++) {
-    $("#" + shipArray[i]).text("X");
-  }
+  //Message for how many missiles the user has left
+  $("#counter").text("You have " + missileCheck() + " missile(s) left.");
 
-  // //Change background color based on hit or miss
-  // $("td").on("click", function() {
-  //
-  //
-  //   //updates users missile count
-  //   $("#counter").text("You have " + missileCheck() + " missile(s) left.");
-  //
-  //   //changes class based on hit or miss
-  //   if (checkHitOrMiss($(this).attr("id"), shipArray)) {
-  //     check = checkShipStatus(indShips, $(this).attr("id"), copyShips, ships);
-  //     if (check[0]) {
-  //       $("#something").text("Sunk!").animate({opacity: 1}, function() {
-  //         $("#something").text("Sunk!").animate({opacity: 0}, 500);
-  //       });
-  //       $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
-  //         "-block ship!</p>");
-  //       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
-  //     }
-  //     $(this).addClass("hit");
-  //     $(this).text("O");
-  //     if (checkWin(shipArray)) {
-  //       $("#winOrLose").text("You win!").css({"color": "green"});
-  //       $("td").off();
-  //     } else if (counter === 0) {
-  //       $("#winOrLose").text("You lose!");
-  //       $("td").off();
-  //       for (var i = 0; i < shipArray.length; i++) {
-  //         $("#" + shipArray[i]).addClass("show-ship");
-  //         $("#" + shipArray[i]).text("|");
-  //       }
-  //     }
-  //   } else {
-  //     $(this).addClass("miss");
-  //     $(this).text("X");
-  //     if (counter === 0) {
-  //       $("#winOrLose").text("You lose!").css({"color": "red"});
-  //       $("td").off();
-  //       for (var i = 0; i < shipArray.length; i++) {
-  //         $("#" + shipArray[i]).addClass("show-ship");
-  //         $("#" + shipArray[i]).text("|");
-  //       }
-  //
-  //     }
-  //   }
-  //
-  //   $(this).off();
-  //
-  // });
+  //On click function that runs the game within the table
   $("td").on("click", function() {
     clickerFunction(this, shipArray, indShips, copyShips, ships, check, counter);
   });
 
+  //On click function that resets the game values and on screen game baord
   $("button").on("click", function() {
+    //Resets all game values
     counter = 50;
     shipArray = addShips(ships, board, n, numShips);
     indShips = createPackage(ships, numShips, n, shipArray);
     check = [];
     copyShips = ships.slice();
 
+    //Removes all changes to game board to bring it back to original state
     $("td").off();
-    $(".destroyed").remove();
     $("td").removeClass();
     $("td").text("");
+
+    //Resets win/lose message styling and text
     $("#winOrLose").text("");
     $("#winOrLose").removeAttr("style");
+
+    //Resets counter message
     $("#counter").text("You have " + missileCheck() + " missile(s) left.");
+
+    //Resets which ships still alive message
     $("#ships").text("Ship(s) remaining: " + copyShips.join(", "));
+
+    //Removes all log messages
+    $(".destroyed").remove();
+
+    //Re-runs the on click functionality
     $("td").on("click", function() {
       clickerFunction(this, shipArray, indShips, copyShips, ships, check, counter);
-    });
-  });
-    // for (var i = 0; i < shipArray.length; i++) {
-    //   $("." + shipArray[i]).text("X");
-    // }
+    }); //Ends td on click function
 
-    //Change background color based on hit or miss
-    // $("td").on("click", function() {
-    //
-    //
-    //   //updates users missile count
-    //   $("#counter").text("You have " + missileCheck() + " missile(s) left.");
-    //
-    //   //changes class based on hit or miss
-    //   if (checkHitOrMiss($(this).attr("id"), shipArray)) {
-    //     check = checkShipStatus(indShips, $(this).attr("id"), copyShips, ships);
-    //     if (check[0]) {
-    //       $("#something").text("Sunk!").animate({opacity: 1}, function() {
-    //         $("#something").text("Sunk!").animate({opacity: 0}, 500);
-    //       });
-    //       $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
-    //         "-block ship!</p>");
-    //       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
-    //     }
-    //     $(this).addClass("hit");
-    //     $(this).text("O");
-    //     if (checkWin(shipArray)) {
-    //       $("#winOrLose").text("You win!").css({"color": "green"});
-    //       $("td").off();
-    //     } else if (counter === 0) {
-    //       $("#winOrLose").text("You lose!");
-    //       $("td").off();
-    //       for (var i = 0; i < shipArray.length; i++) {
-    //         $("#" + shipArray[i]).addClass("show-ship");
-    //         $("#" + shipArray[i]).text("|");
-    //       }
-    //     }
-    //   } else {
-    //     $(this).addClass("miss");
-    //     $(this).text("X");
-    //     if (counter === 0) {
-    //       $("#winOrLose").text("You lose!").css({"color": "red"});
-    //       $("td").off();
-    //       for (var i = 0; i < shipArray.length; i++) {
-    //         $("#" + shipArray[i]).addClass("show-ship");
-    //         $("#" + shipArray[i]).text("|");
-    //       }
-    //
-    //     }
-    //   }
-    //
-    //   $(this).off();
-    //
-    // });
-});
+  }); //Ends button on click function
 
+}); //Ends $(document).ready
 
+/*
+** clickerFunction runs the game by doing the following:
+** Changes the missile counter
+** Checks if clicked spot was a hit/miss and then updates game board
+** Runs 'Sunk!' animation, updates log, and updates ships left when an
+** entire ship is destroyed
+** Checks game board for win/loss
+** If game is lost, show user where ships are
+*/
 function clickerFunction(x, shipArray, indShips, copyShips, ships, check, counter) {
-  // var shipArray = addShips(ships, board, n, numShips);
-  // var indShips = createPackage(ships, numShips, n, shipArray);
-  // var check;
-  // var copyShips = ships.slice();
-  // $("td").on("click", function() {
 
-
-  //updates users missile count
-  console.log("first: " + counter);
+  //Updates users missile count
   $("#counter").text("You have " + missileCheck() + " missile(s) left.");
-  console.log("second: " + counter);
 
-  //changes class based on hit or miss
+  //Checks if the clicked spot is a hit
   if (checkHitOrMiss($(x).attr("id"), shipArray)) {
+
+    //Runs when spot is a hit
+    $(x).addClass("hit");
+    $(x).text("O");
+
+    //Checks and removes fully sunk ships
     check = checkShipStatus(indShips, $(x).attr("id"), copyShips, ships);
     if (check[0]) {
       $("#something").text("Sunk!").animate({opacity: 1}, function() {
@@ -170,36 +102,48 @@ function clickerFunction(x, shipArray, indShips, copyShips, ships, check, counte
       $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
       "-block ship!</p>");
       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
-    }
-    $(x).addClass("hit");
-    $(x).text("O");
-    console.log(shipArray);
+    } //End sunk check
+
+    //Checks for win
     if (checkWin(shipArray)) {
+
+      //Runs if there is a win
       $("#winOrLose").text("You win!").css({"color": "green"});
       $("td").off();
     } else if (counter === 0) {
+
+      //Runs if there is a loss
       $("#winOrLose").text("You lose!");
       $("td").off();
+
+      //Shows where the ships were located
       for (var i = 0; i < shipArray.length; i++) {
         $("#" + shipArray[i]).addClass("show-ship");
         $("#" + shipArray[i]).text("|");
       }
-    }
+    } //End win check
   } else {
+
+    //Runs when spot is a miss
     $(x).addClass("miss");
     $(x).text("X");
+
+    //Checks if the user lost
     if (counter === 0) {
       $("#winOrLose").text("You lose!").css({"color": "red"});
       $("td").off();
+
+      //Shows where the ships were located
       for (var i = 0; i < shipArray.length; i++) {
         $("#" + shipArray[i]).addClass("show-ship");
         $("#" + shipArray[i]).text("|");
       }
 
-    }
-  }
+    }//End loss check
 
+  }//End hit/miss check
+
+  //Stops clicked spot to be clicked again
   $(x).off();
 
-  //});
 }
