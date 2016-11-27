@@ -99,8 +99,8 @@ function clickerFunction(x, shipArray, indShips, copyShips, ships, check, counte
       $("#something").text("Sunk!").animate({opacity: 1}, function() {
         $("#something").text("Sunk!").animate({opacity: 0}, 500);
       });
-      $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +  ships[check[1]] +
-      "-block ship!</p>");
+      $("#log").after("<p class=" + "destroyed" + ">You destroyed a " +
+        ships[check[1]] + "-block ship!</p>");
       $("#ships").text("Ship(s) remaining: " + check[2].join(", "));
     } //End sunk check
 
