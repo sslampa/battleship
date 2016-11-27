@@ -16,12 +16,12 @@ function checkWin(shipArray) {
 }
 
 //Check for hit or miss at position
-function checkHitOrMiss(classAtPos, shipArray) {
+function checkHitOrMiss(idAtPos, shipArray) {
   //check if it is included in our ship position array
   //if it is in ship array, it is a hit => true
   //else, it is a miss=> false
-  if (shipArray.includes(classAtPos)) {
-    shipArray.splice(shipArray.indexOf(classAtPos), 1);
+  if (shipArray.includes(idAtPos)) {
+    shipArray.splice(shipArray.indexOf(idAtPos), 1);
     return true;
   } else {
     return false;

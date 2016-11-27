@@ -7,11 +7,14 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #335A77;/*#848482;*/
+  border-radius: 15px;
+  border: 5px solid black;
 }
 
 td {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border: 1px solid black;
   background-color: #40a4df;
   text-align: center;
@@ -21,8 +24,17 @@ td {
 
 a {
   text-decoration: none;
-  color: black;
+  color: white;
   font-size: 10px;
+}
+
+span {
+  color: black;
+}
+
+h1 {
+  background-color: red;
+  border: 5px solid black;
 }
 
 .fa-linkedin-square:hover, .fa-twitter-square:hover, .fa-github-square:hover {
@@ -30,11 +42,11 @@ a {
 }
 
 .hit {
-  background-color: green;
+  background-color: red;
 }
 
 .miss {
-  background-color: red;
+  background-color: white;
 }
 
 .show-ship {
@@ -45,11 +57,19 @@ a {
   /*flex-grow: 2;*/
   flex-basis: 18%;
   flex-shrink: 5;
-  background-color: white;/*#c2b280;*/
-  color: black;
-  border: 15px solid #c2b280;
+  background-color: #848482;/*#74b560;#c2b280;*/
+  color: white;
+  border: 5px solid black;/*#c2b280;*/
   text-align: center;
-  border-radius: 15px;
+  /*height: 800px;*/
+}
+
+#game {
+  border-radius: 15px 0 0 15px;
+}
+
+#info {
+  border-radius: 0 15px 15px 0;
 }
 
 .destroyed {
@@ -62,18 +82,27 @@ a {
 table {
   /*flex-grow: 2;
   flex-basis: 50%;*/
+  margin: auto auto;
+  border: 5px solid black;
 }
 
 .header, #footer {
   flex-grow: 1;
   flex-basis: 100%;
   text-align: center;
-  background-color: #74b560;
-  border-radius: 15px;
+  background-color: #848482;/*#74b560;*/
+  color: white;
+}
+
+.header {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 #footer {
   padding-bottom: 5px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 #rules-head {
@@ -99,16 +128,16 @@ ul > li {
   margin-top: 10px;
 }
 
-#green-box {
-  width: 10px;
-  height: 10px;
-  background-color: green;
-}
-
 #red-box {
   width: 10px;
   height: 10px;
   background-color: red;
+}
+
+#white-box {
+  width: 10px;
+  height: 10px;
+  background-color: white;
 }
 
 #gray-box {
