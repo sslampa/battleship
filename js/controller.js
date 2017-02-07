@@ -1,6 +1,6 @@
 $(document).ready(function() {
   //Carries all ship locations
-  var shipArray = addShips(ships, board, n, numShips);
+  var shipArray = addShips(ships, n, numShips);
 
   //Packages the correct m-block ships
   var indShips = createPackage(ships, numShips, n, shipArray);
@@ -40,7 +40,7 @@ $(document).ready(function() {
   $("button").on("click", function() {
     //Resets all game values
     counter = 50;
-    shipArray = addShips(ships, board, n, numShips);
+    shipArray = addShips(ships, n, numShips);
     indShips = createPackage(ships, numShips, n, shipArray);
     check = [];
     copyShips = ships.slice();

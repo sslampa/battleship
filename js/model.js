@@ -1,9 +1,4 @@
-var MISS = -1;
-var EMPTY = 0;
-var HIT = 1;
-var SHIP = 200;
 var n = 10; //nxn matrix
-var board = makeBoard(n);
 var ships = [5, 4, 4, 3, 3, 2, 2, 1];
 var numShips = ships.length;
 var counter = 50;
@@ -68,27 +63,6 @@ function missileCheck() {
 
 } //End missileCheck
 
-//Creates empty board
-function makeBoard(n) {
-
-  //Empty board array to be returned
-  var newBoard = [];
-  var emptyArray = [];
-
-  for (var iter = 0; iter < n; iter++) {
-
-    emptyArray = [];
-    for (var i = 0; i < n; i++) {
-      emptyArray.push(0);
-    }
-
-    newBoard.push(emptyArray);
-  }
-
-  return newBoard;
-
-}
-
 //Packages into correct ship sizes
 function createPackage(ships, numShips, n, shipArray) {
   var tempArray = [];
@@ -111,7 +85,7 @@ function createPackage(ships, numShips, n, shipArray) {
 }
 
 //Generates ships at random positions on the board
-function addShips(ships, board, n, numShips) {
+function addShips(ships, n, numShips) {
 
   //Gets and sets position for the number of ships
   var array = randPos(numShips, n, ships);
@@ -122,9 +96,6 @@ function addShips(ships, board, n, numShips) {
   //Takes the values of each ship and gives the value of SHIP(200) at
   //that board locattion.
   array.forEach(function(item, iter) {
-
-    //Changes the board at board[row][col] for SHIP(200)
-    board[array[iter][0]][array[iter][1]] = SHIP;
 
     //Changes the indexes to better match the IDs for each td
     shipArray.push(array[iter].join("-"));
